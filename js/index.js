@@ -1,4 +1,5 @@
 const loadData = async (isShowAll) => {
+  toggleLoadingSpinner(true);
   const response = await fetch(
     `https://openapi.programming-hero.com/api/ai/tools`
   );
@@ -6,6 +7,7 @@ const loadData = async (isShowAll) => {
   const aiData = data.data.tools;
   displayData(aiData, isShowAll);
   displayFeaturesList(aiData);
+  
 };
 
 const displayData = (aiData, isShowAll) => {
@@ -63,7 +65,7 @@ const displayData = (aiData, isShowAll) => {
         `;
     cardContainer.appendChild(dataCard);
   });
-
+  toggleLoadingSpinner(false)
   // showFeatureList(featureList)
 };
 
@@ -71,6 +73,16 @@ const showAllCard = () => {
   
   loadData(true)
   
+}
+
+const toggleLoadingSpinner = (isLoading) => {
+  const loadingSpinner = document.getElementById('loadingSpinner');
+  if(isLoading){
+    loadingSpinner.classList.remove('hidden');
+  }
+  else {
+    loadingSpinner.classList.add('hidden');
+  }
 }
 
 loadData();
