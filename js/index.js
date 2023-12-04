@@ -1,18 +1,28 @@
-const loadData = async () => {
+const loadData = async (isShowAll) => {
   const response = await fetch(
     `https://openapi.programming-hero.com/api/ai/tools`
   );
   const data = await response.json();
   const aiData = data.data.tools;
-  displayData(aiData);
+  displayData(aiData, isShowAll);
   displayFeaturesList(aiData);
 };
 
-const displayData = (aiData) => {
+const displayData = (aiData, isShowAll) => {
   const cardContainer = document.getElementById("cardContainer");
-  console.log(aiData);
+  cardContainer.textContent = '';
+
+  const showAllBtn = document.getElementById('show-all-btn');
+  if(isShowAll){
+    showAllBtn.classList.add('hidden')
+  }
+  // console.log(aiData);
+  if(!isShowAll){
+    aiData = aiData.slice(0, 6)
+  }
   aiData.forEach((data) => {
     const dataCard = document.createElement("div");
+    
 
     // console.log(featureList)
     dataCard.innerHTML = `
@@ -57,23 +67,10 @@ const displayData = (aiData) => {
   // showFeatureList(featureList)
 };
 
-const displayFeaturesList = (arr) => {
-  for (const item of arr) {
-    const itemArr = item.features;
-    console.log(itemArr);
-    showFeatureList(itemArr);
-  }
-};
-
-const showFeatureList = (arr) => {
-  const featureList = document.getElementById("feature-list");
-  const count = featureList.childElementCount;
-  for (let item of arr) {
-    const li = document.createElement("li");
-    li.innerText = `${count + 1}. ${item}`;
-    // featureList.appendChild(li)
-    console.log(item);
-  }
-};
+const showAllCard = () => {
+  
+  loadData(true)
+  
+}
 
 loadData();
